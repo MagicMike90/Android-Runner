@@ -1,23 +1,21 @@
-package com.runner.michael.runner;
+package com.michael.login;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
-import android.content.pm.PackageManager;
-import android.support.annotation.NonNull;
-import android.support.design.widget.Snackbar;
-import android.support.v7.app.AppCompatActivity;
 import android.app.LoaderManager.LoaderCallbacks;
-
 import android.content.CursorLoader;
 import android.content.Loader;
+import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.AsyncTask;
-
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.ContactsContract;
+import android.support.annotation.NonNull;
+import android.support.design.widget.Snackbar;
+import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.View;
@@ -28,6 +26,8 @@ import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+
+import com.runner.michael.runner.R;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -192,6 +192,10 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
     private boolean isEmailValid(String email) {
         //TODO: Replace this with your own logic
+
+
+//        return android.util.Patterns.EMAIL_ADDRESS.matcher(email)
+//                .matches();
         return email.contains("@");
     }
 
