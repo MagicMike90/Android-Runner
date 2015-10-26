@@ -5,6 +5,7 @@ import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
 import android.app.LoaderManager.LoaderCallbacks;
 import android.content.CursorLoader;
+import android.content.Intent;
 import android.content.Loader;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
@@ -27,6 +28,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.michael.main.RunnerActivity;
 import com.runner.michael.runner.R;
 
 import java.util.ArrayList;
@@ -337,6 +339,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             showProgress(false);
 
             if (success) {
+                transitToMain();
                 finish();
             } else {
                 mPasswordView.setError(getString(R.string.error_incorrect_password));
@@ -348,6 +351,15 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         protected void onCancelled() {
             mAuthTask = null;
             showProgress(false);
+        }
+//        @Override
+//        protected void finish() {
+//
+//        }
+
+        protected void transitToMain() {
+            Intent i = new Intent(LoginActivity.this, RunnerActivity.class);
+            startActivity(i);
         }
     }
 }

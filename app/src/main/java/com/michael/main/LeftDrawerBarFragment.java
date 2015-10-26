@@ -1,25 +1,24 @@
-package com.michael.login;
+package com.michael.main;
 
 import android.app.Activity;
-import android.app.AlertDialog;
-import android.app.Dialog;
-import android.app.DialogFragment;
-import android.app.Fragment;
 import android.net.Uri;
 import android.os.Bundle;
+import android.app.Fragment;
 import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 
 import com.runner.michael.runner.R;
 
 /**
  * A simple {@link Fragment} subclass.
  * Activities that contain this fragment must implement the
- * {@link LoginDialogFragment.OnFragmentInteractionListener} interface
+ * {@link LeftDrawerBarFragment.OnFragmentInteractionListener} interface
  * to handle interaction events.
- * Use the {@link LoginDialogFragment#newInstance} factory method to
+ * Use the {@link LeftDrawerBarFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class LoginDialogFragment extends DialogFragment {
+public class LeftDrawerBarFragment extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -37,11 +36,11 @@ public class LoginDialogFragment extends DialogFragment {
      *
      * @param param1 Parameter 1.
      * @param param2 Parameter 2.
-     * @return A new instance of fragment LoginDialogFragment.
+     * @return A new instance of fragment LeftDrawerBarFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static LoginDialogFragment newInstance(String param1, String param2) {
-        LoginDialogFragment fragment = new LoginDialogFragment();
+    public static LeftDrawerBarFragment newInstance(String param1, String param2) {
+        LeftDrawerBarFragment fragment = new LeftDrawerBarFragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -49,7 +48,7 @@ public class LoginDialogFragment extends DialogFragment {
         return fragment;
     }
 
-    public LoginDialogFragment() {
+    public LeftDrawerBarFragment() {
         // Required empty public constructor
     }
 
@@ -61,16 +60,12 @@ public class LoginDialogFragment extends DialogFragment {
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
     }
-    @Override
-    public Dialog onCreateDialog(Bundle savedInstanceState) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-        // Get the layout inflater
-        LayoutInflater inflater = getActivity().getLayoutInflater();
 
-        // Inflate and set the layout for the dialog
-        // Pass null as the parent view because its going in the dialog layout
-        builder.setView(inflater.inflate(R.layout.fragment_login_dialog, null));
-        return builder.create();
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        // Inflate the layout for this fragment
+        return inflater.inflate(R.layout.fragment_left_drawer_bar, container, false);
     }
 
     // TODO: Rename method, update argument and hook method into UI event

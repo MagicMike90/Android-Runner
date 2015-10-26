@@ -15,7 +15,7 @@ import android.view.View;
 
 import com.runner.michael.runner.R;
 
-public class MainActivity extends AppCompatActivity
+public class RunnerActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     @Override
@@ -83,7 +83,7 @@ public class MainActivity extends AppCompatActivity
         int id = item.getItemId();
         setTitle(item.getTitleCondensed());
 
-        if (id == R.id.nav_camara) {
+        if (id == R.id.nav_home) {
             // Handle the camera action
         } else if (id == R.id.nav_gallery) {
 
