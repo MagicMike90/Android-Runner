@@ -30,7 +30,7 @@
             android:id="@+id/login_form"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:paddingTop="@dimen/nav_header_height">
+            android:paddingTop="@dimen/form_margin">
 
             <LinearLayout
                 android:id="@+id/email_login_form"
