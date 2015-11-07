@@ -1,4 +1,4 @@
-package com.michael.login;
+package com.michael.runner.login;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
@@ -29,7 +29,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import com.runner.michael.runner.R;
+
 
 import java.util.ArrayList;
 import java.util.List;
