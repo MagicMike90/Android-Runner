@@ -2,11 +2,8 @@ package com.michael.runner.login;
 
 import android.support.v4.app.Fragment;
 
-import com.michael.main.BaseFragmentActivity;
+import com.michael.runner.main.BaseFragmentActivity;
 
-/**
- * A login screen that offers login via email/password.
- */
 public class LoginActivity extends BaseFragmentActivity {
 
 
@@ -15,4 +12,3 @@ public class LoginActivity extends BaseFragmentActivity {
         return LoginFragment.newInstance();
     }
 }
-

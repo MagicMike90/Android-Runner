@@ -13,7 +13,8 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
-import com.runner.michael.runner.R;
+import com.michael.runner.R;
+
 
 public class RunnerActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {

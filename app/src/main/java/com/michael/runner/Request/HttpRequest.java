@@ -2,12 +2,9 @@ package com.michael.runner.request;
 
 import android.util.Log;
 
-import com.goebl.david.Webb;
 
-import org.apache.http.HttpResponse;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.impl.client.DefaultHttpClient;
+
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -25,11 +22,7 @@ public class HttpRequest {
     private HttpRequest() {
     }
 
-    public HttpResponse makePostRequest(String url) throws Exception {
-        HttpClient httpclient = new DefaultHttpClient();
-        HttpPost request = new HttpPost(url);
-        return httpclient.execute(request);
-    }
+
 
     public void registerNewUser(String email, String password) {
         try {
@@ -42,6 +35,6 @@ public class HttpRequest {
     }
 
     private void postRequest(String url, JSONObject jb) {
-        Webb webb = Webb.create();
+
     }
 }

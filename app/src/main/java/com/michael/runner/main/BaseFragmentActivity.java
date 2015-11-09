@@ -5,7 +5,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 
-import com.runner.michael.runner.R;
+import com.michael.runner.R;
 
 public abstract class BaseFragmentActivity extends AppCompatActivity {
     protected abstract Fragment createFragment();
