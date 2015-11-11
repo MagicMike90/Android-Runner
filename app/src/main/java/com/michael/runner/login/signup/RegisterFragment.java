@@ -179,7 +179,9 @@ public class RegisterFragment extends Fragment implements LoaderManager.LoaderCa
             // perform the user login attempt.
             //showProgress(true);
 //            mAuthTask = new UserLoginTask(email, password);
+
 //            mAuthTask.execute((Void) null);
+            RegisterTask(email, password);
         }
     }
 
@@ -260,50 +262,66 @@ public class RegisterFragment extends Fragment implements LoaderManager.LoaderCa
         mEmailView.setAdapter(adapter);
     }
 
-    private void RegisterTask() {
+    private void RegisterTask(CharSequence username, CharSequence password) {
         showProgress(true);
 
+        JSONObject body = new JSONObject();
+        try {
+            body.put("username", username);
+            body.put("password", password);
+        }catch (JSONException e) {
+            e.printStackTrace();
+        }
 
 
-
-        JsonObjectRequest jsonObjReq = new JsonObjectRequest(Request.Method.GET,
-                Constans.SERVER_UR, null, new Response.Listener<JSONObject>() {
+        JsonObjectRequest jsonObjReq = new JsonObjectRequest(Request.Method.POST,
+                Constans.SIGN_UP_URL, body, new Response.Listener<JSONObject>() {
 
             @Override
             public void onResponse(JSONObject response) {
                 Log.d(TAG, response.toString());
 
+
                 try {
-                    // Parsing json object response
-                    // response will be a json object
-                    String name = response.getString("name");
-                    String email = response.getString("email");
-                    JSONObject phone = response.getJSONObject("phone");
-                    String home = phone.getString("home");
-                    String mobile = phone.getString("mobile");
-
-                    jsonResponse = "";
-                    jsonResponse += "Name: " + name + "\n\n";
-                    jsonResponse += "Email: " + email + "\n\n";
-                    jsonResponse += "Home: " + home + "\n\n";
-                    jsonResponse += "Mobile: " + mobile + "\n\n";
-
-//                    txtResponse.setText(jsonResponse);
-
                     Toast.makeText(getActivity().getApplicationContext(),
-                            jsonResponse,
-                            Toast.LENGTH_LONG).show();
-
-                } catch (JSONException e) {
+                            response.getString("msg"), Toast.LENGTH_SHORT).show();
+                }catch(JSONException e) {
                     e.printStackTrace();
-                    Toast.makeText(getActivity().getApplicationContext(),
-                            "Error: " + e.getMessage(),
-                            Toast.LENGTH_LONG).show();
                 }
+//                try {
+////                    // Parsing json object response
+//                    JSONObject jsonResponse = response.getJSONObject("form");
+//                    String site = jsonResponse.getString("site"),
+//                            network = jsonResponse.getString("network");
+//                    System.out.println("Site: "+site+"\nNetwork: "+network);
+////                    // response will be a json object
+////                    String name = response.getString("name");
+////                    String email = response.getString("email");
+////                    JSONObject phone = response.getJSONObject("phone");
+////                    String home = phone.getString("home");
+////                    String mobile = phone.getString("mobile");
+////
+////                    jsonResponse = "";
+////                    jsonResponse += "Name: " + name + "\n\n";
+////                    jsonResponse += "Email: " + email + "\n\n";
+////                    jsonResponse += "Home: " + home + "\n\n";
+////                    jsonResponse += "Mobile: " + mobile + "\n\n";
+////
+//////                    txtResponse.setText(jsonResponse);
+////
+////                    Toast.makeText(getActivity().getApplicationContext(),
+////                            response.toString(),
+////                            Toast.LENGTH_LONG).show();
+//
+//                } catch (JSONException e) {
+//                    e.printStackTrace();
+//                    Toast.makeText(getActivity().getApplicationContext(),
+//                            "Error: " + e.getMessage(),
+//                            Toast.LENGTH_LONG).show();
+//                }
                 showProgress(false);
             }
         }, new Response.ErrorListener() {
-
             @Override
             public void onErrorResponse(VolleyError error) {
                 VolleyLog.d(TAG, "Error: " + error.getMessage());
@@ -313,6 +331,21 @@ public class RegisterFragment extends Fragment implements LoaderManager.LoaderCa
                 showProgress(false);
             }
         });
+//        StringRequest sr = new StringRequest(Request.Method.POST, Constans.SIGN_UP_URL,new Response.Listener<String>() {
+//            @Override
+//            public void onResponse(String response) {
+//                //mPostCommentResponse.requestCompleted();
+//                Log.d(TAG,response);
+//               // Toast.makeText(getActivity(),REQUEST_READ_CONTACTS,Toast.LENGTH_LONG).show();
+//            }
+//        }, new Response.ErrorListener() {
+//            @Override
+//            public void onErrorResponse(VolleyError error) {
+//               // mPostCommentResponse.requestEndedWithError(error);
+//                Log.d(TAG,error.getMessage());
+//            }
+//        });
+
 
         // Adding request to request queue
         VolleyManager.getInstance(getActivity().getApplicationContext()).addToRequestQueue(jsonObjReq);
