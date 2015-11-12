@@ -1,5 +1,6 @@
 package com.michael.runner.main;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
@@ -9,15 +10,20 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.TextView;
 
 import com.michael.runner.R;
 
 
 public class RunnerActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
+
+    private static String TAG  = RunnerActivity.class.getName();
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,6 +49,20 @@ public class RunnerActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+
+
+        Intent intent = getIntent();
+        String userName = intent.getStringExtra("username");
+        Log.d(TAG, userName);
+
+
+
+        TextView nameView = (TextView) navigationView.findViewById(R.id.user_name);
+        if(nameView == null) {
+            Log.d(TAG, "it is null");
+        }
+        //nameView.setText(userName);
     }
 
     @Override

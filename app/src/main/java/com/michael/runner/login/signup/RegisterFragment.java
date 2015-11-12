@@ -2,6 +2,7 @@ package com.michael.runner.login.signup;
 
 import android.annotation.TargetApi;
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Build;
@@ -32,6 +33,9 @@ import com.android.volley.VolleyLog;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.michael.runner.R;
 import com.michael.runner.main.Constans;
+import com.michael.runner.main.MsgDialogFragment;
+import com.michael.runner.main.RunnerActivity;
+import com.michael.runner.utils.SessionManager;
 import com.michael.runner.utils.VolleyManager;
 
 import org.json.JSONException;
@@ -67,8 +71,9 @@ public class RegisterFragment extends Fragment implements LoaderManager.LoaderCa
     private View mLoginFormView;
 
     private ProgressDialog mProgressDialog;
+    //private MsgDialogFragment mMsgDialog;
 
-    private String jsonResponse;
+
     /**
      * Use this factory method to create a new instance of
      * this fragment using the provided parameters.
@@ -81,8 +86,9 @@ public class RegisterFragment extends Fragment implements LoaderManager.LoaderCa
     }
 
     public RegisterFragment() {
-        // Required empty public constructor
+
     }
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -137,9 +143,6 @@ public class RegisterFragment extends Fragment implements LoaderManager.LoaderCa
      * errors are presented and no actual login attempt is made.
      */
     private void attemptRegister() {
-//        if (mAuthTask != null) {
-//            return;
-//        }
 
         // Reset errors.
         mEmailView.setError(null);
@@ -150,22 +153,28 @@ public class RegisterFragment extends Fragment implements LoaderManager.LoaderCa
         String password = mPasswordView.getText().toString();
 
         boolean cancel = false;
+        String error = "";
         View focusView = null;
 
         // Check for a valid password, if the user entered one.
-        if (!TextUtils.isEmpty(password) && !isPasswordValid(password)) {
-            mPasswordView.setError(getString(R.string.error_invalid_password));
+        if (TextUtils.isEmpty(password) && !isPasswordValid(password)) {
+            // mPasswordView.setError(getString(R.string.error_invalid_password));
+            error = getString(R.string.error_invalid_password);
+
             focusView = mPasswordView;
             cancel = true;
         }
 
         // Check for a valid email address.
         if (TextUtils.isEmpty(email)) {
-            mEmailView.setError(getString(R.string.error_field_required));
+            // mEmailView.setError(getString(R.string.error_field_required));
+            error = getString(R.string.error_field_required);
+            //showMsgDialog(getString(R.string.error_field_required));
             focusView = mEmailView;
             cancel = true;
         } else if (!isEmailValid(email)) {
-            mEmailView.setError(getString(R.string.error_invalid_email));
+            // mEmailView.setError(getString(R.string.error_invalid_email));
+            error = getString(R.string.error_invalid_email);
             focusView = mEmailView;
             cancel = true;
         }
@@ -173,6 +182,8 @@ public class RegisterFragment extends Fragment implements LoaderManager.LoaderCa
         if (cancel) {
             // There was an error; don't attempt login and focus the first
             // form field with an error.
+
+            showMsgDialog(error, "Error");
             focusView.requestFocus();
         } else {
             // Show a progress spinner, and kick off a background task to
@@ -262,64 +273,42 @@ public class RegisterFragment extends Fragment implements LoaderManager.LoaderCa
         mEmailView.setAdapter(adapter);
     }
 
-    private void RegisterTask(CharSequence username, CharSequence password) {
+    private void RegisterTask(final String username, final String password) {
         showProgress(true);
 
         JSONObject body = new JSONObject();
         try {
             body.put("username", username);
             body.put("password", password);
-        }catch (JSONException e) {
+        } catch (JSONException e) {
             e.printStackTrace();
         }
-
 
         JsonObjectRequest jsonObjReq = new JsonObjectRequest(Request.Method.POST,
                 Constans.SIGN_UP_URL, body, new Response.Listener<JSONObject>() {
 
             @Override
             public void onResponse(JSONObject response) {
-                Log.d(TAG, response.toString());
-
-
                 try {
-                    Toast.makeText(getActivity().getApplicationContext(),
-                            response.getString("msg"), Toast.LENGTH_SHORT).show();
-                }catch(JSONException e) {
+                    boolean success = response.getBoolean("success");
+                    if (success) {
+                        //store the user info in shareperference
+                        SessionManager sm = SessionManager.getInstance(getActivity());
+                        sm.createLoginSession(username,password);
+                        showProgress(false);
+                        transitToActivity(RunnerActivity.class,username);
+                    } else {
+                        JSONObject extrasJSON = response.getJSONObject("extras");
+                        String msg = extrasJSON.getString("msg");
+                        showMsgDialog(msg, "Error");
+                    }
+
+                } catch (JSONException e) {
+                    showProgress(false);
                     e.printStackTrace();
                 }
-//                try {
-////                    // Parsing json object response
-//                    JSONObject jsonResponse = response.getJSONObject("form");
-//                    String site = jsonResponse.getString("site"),
-//                            network = jsonResponse.getString("network");
-//                    System.out.println("Site: "+site+"\nNetwork: "+network);
-////                    // response will be a json object
-////                    String name = response.getString("name");
-////                    String email = response.getString("email");
-////                    JSONObject phone = response.getJSONObject("phone");
-////                    String home = phone.getString("home");
-////                    String mobile = phone.getString("mobile");
-////
-////                    jsonResponse = "";
-////                    jsonResponse += "Name: " + name + "\n\n";
-////                    jsonResponse += "Email: " + email + "\n\n";
-////                    jsonResponse += "Home: " + home + "\n\n";
-////                    jsonResponse += "Mobile: " + mobile + "\n\n";
-////
-//////                    txtResponse.setText(jsonResponse);
-////
-////                    Toast.makeText(getActivity().getApplicationContext(),
-////                            response.toString(),
-////                            Toast.LENGTH_LONG).show();
-//
-//                } catch (JSONException e) {
-//                    e.printStackTrace();
-//                    Toast.makeText(getActivity().getApplicationContext(),
-//                            "Error: " + e.getMessage(),
-//                            Toast.LENGTH_LONG).show();
-//                }
-                showProgress(false);
+
+                //showProgress(false);
             }
         }, new Response.ErrorListener() {
             @Override
@@ -328,7 +317,8 @@ public class RegisterFragment extends Fragment implements LoaderManager.LoaderCa
                 Toast.makeText(getActivity().getApplicationContext(),
                         error.getMessage(), Toast.LENGTH_SHORT).show();
                 // hide the progress dialog
-                showProgress(false);
+
+                //showProgress(false);
             }
         });
 //        StringRequest sr = new StringRequest(Request.Method.POST, Constans.SIGN_UP_URL,new Response.Listener<String>() {
@@ -351,5 +341,17 @@ public class RegisterFragment extends Fragment implements LoaderManager.LoaderCa
         VolleyManager.getInstance(getActivity().getApplicationContext()).addToRequestQueue(jsonObjReq);
     }
 
+    private void showMsgDialog(String msg, String title) {
+        MsgDialogFragment dialog = MsgDialogFragment.newInstance(msg, title);
 
+        dialog.show(getActivity().getFragmentManager(), TAG);
+    }
+
+    public void transitToActivity(Class<?> cls, String username) {
+        Intent i = new Intent(getActivity(), cls);
+        Log.d(TAG,username);
+        i.putExtra("username",username);
+        startActivity(i);
+        //getActivity().overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+    }
 }

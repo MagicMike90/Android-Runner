@@ -12,11 +12,11 @@ import com.android.volley.toolbox.Volley;
 
 /**
  * Created by michael on 9/11/2015.
- *
+ * <p/>
  * A better way to create Singleton class for RequestQueue
  */
 public class VolleyManager {
-    public static final String TAG = VolleyController.class.getSimpleName();
+    public static final String TAG = VolleyManager.class.getSimpleName();
 
     private static VolleyManager mInstance;
     private RequestQueue mRequestQueue;
@@ -65,10 +65,12 @@ public class VolleyManager {
         req.setTag(TAG);
         getRequestQueue().add(req);
     }
+
     public <T> void addToRequestQueue(Request<T> req, String tag) {
         req.setTag(TextUtils.isEmpty(tag) ? TAG : tag);
         getRequestQueue().add(req);
     }
+
     public ImageLoader getImageLoader() {
         return mImageLoader;
     }
