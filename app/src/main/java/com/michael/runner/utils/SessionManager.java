@@ -10,6 +10,8 @@ import java.util.HashMap;
 
 /**
  * Created by michael on 12/11/2015.
+ *
+ * A session manager implemented with sharepreference to store user login session
  */
 public class SessionManager {
     public static final String TAG = SessionManager.class.getSimpleName();

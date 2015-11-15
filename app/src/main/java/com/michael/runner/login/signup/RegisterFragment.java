@@ -1,11 +1,8 @@
 package com.michael.runner.login.signup;
 
-import android.annotation.TargetApi;
-import android.app.ProgressDialog;
 import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.support.v4.app.Fragment;
@@ -35,6 +32,7 @@ import com.michael.runner.R;
 import com.michael.runner.main.Constans;
 import com.michael.runner.main.MsgDialogFragment;
 import com.michael.runner.main.RunnerActivity;
+import com.michael.runner.utils.ProgressDialogController;
 import com.michael.runner.utils.SessionManager;
 import com.michael.runner.utils.VolleyManager;
 
@@ -70,7 +68,7 @@ public class RegisterFragment extends Fragment implements LoaderManager.LoaderCa
     private EditText mPasswordView;
     private View mLoginFormView;
 
-    private ProgressDialog mProgressDialog;
+    //private ProgressDialog mProgressDialog;
     //private MsgDialogFragment mMsgDialog;
 
 
@@ -129,9 +127,11 @@ public class RegisterFragment extends Fragment implements LoaderManager.LoaderCa
 
         mLoginFormView = view.findViewById(R.id.login_form);
 
-        mProgressDialog = new ProgressDialog(getActivity());
-        mProgressDialog.setMessage("Registering");
-        mProgressDialog.setCancelable(false);
+//        mProgressDialog = new ProgressDialog(getActivity());
+//        mProgressDialog.setMessage("Registering");
+//        //mProgressDialog.getWindow().getAttributes().windowAnimations = R.style.DialogAnimation;
+//
+//        mProgressDialog.setCancelable(false);
 
         return view;
     }
@@ -210,14 +210,14 @@ public class RegisterFragment extends Fragment implements LoaderManager.LoaderCa
         return password.length() > 5;
     }
 
-    /**
-     * Shows the progress UI and hides the login form.
-     */
-    @TargetApi(Build.VERSION_CODES.HONEYCOMB_MR2)
-    private void showProgress(final boolean show) {
-        if (show) mProgressDialog.show();
-        else mProgressDialog.dismiss();
-    }
+//    /**
+//     * Shows the progress UI and hides the login form.
+//     */
+//    @TargetApi(Build.VERSION_CODES.HONEYCOMB_MR2)
+//    private void showProgress(final boolean show) {
+//        if (show) mProgressDialog.show();
+//        else mProgressDialog.dismiss();
+//    }
 
     @Override
     public Loader<Cursor> onCreateLoader(int i, Bundle bundle) {
@@ -274,7 +274,10 @@ public class RegisterFragment extends Fragment implements LoaderManager.LoaderCa
     }
 
     private void RegisterTask(final String username, final String password) {
-        showProgress(true);
+        //showProgress(true);
+
+        final ProgressDialogController pdc =  ProgressDialogController.getInstance(getActivity(),"Registering...");
+        pdc.showProgress(true);
 
         JSONObject body = new JSONObject();
         try {
@@ -295,7 +298,7 @@ public class RegisterFragment extends Fragment implements LoaderManager.LoaderCa
                         //store the user info in shareperference
                         SessionManager sm = SessionManager.getInstance(getActivity());
                         sm.createLoginSession(username,password);
-                        showProgress(false);
+                        //showProgress(false);
                         transitToActivity(RunnerActivity.class,username);
                     } else {
                         JSONObject extrasJSON = response.getJSONObject("extras");
@@ -304,11 +307,12 @@ public class RegisterFragment extends Fragment implements LoaderManager.LoaderCa
                     }
 
                 } catch (JSONException e) {
-                    showProgress(false);
+                    //showProgress(false);
                     e.printStackTrace();
                 }
 
                 //showProgress(false);
+                pdc.showProgress(false);
             }
         }, new Response.ErrorListener() {
             @Override
@@ -317,7 +321,7 @@ public class RegisterFragment extends Fragment implements LoaderManager.LoaderCa
                 Toast.makeText(getActivity().getApplicationContext(),
                         error.getMessage(), Toast.LENGTH_SHORT).show();
                 // hide the progress dialog
-
+                pdc.showProgress(false);
                 //showProgress(false);
             }
         });

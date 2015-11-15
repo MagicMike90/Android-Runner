@@ -3,8 +3,22 @@
     <color name="colorPrimary">#3F51B5</color>
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
-    <color name="welcomeColor">#34495e</color>
-    <color name="welcomeColor_dark">#2c3e50</color>
-    <color name="registerColor">#27ae60</color>
-    <color name="highlightColor">#3498db</color>
+    <color name="colorWelcome">#22313F</color>
+    <!--<color name="welcomeColor">#1e2024</color>-->
+
+    <color name="colorWelcomeDark">#000000</color>
+    <color name="colorRegister">#27ae60</color>
+    <color name="colorHighlight">#22A7F0</color>
+    <!--<color name="highlightColor">#3498db</color>-->
+
+
+    <color name="colorSelect">#E08283</color>
+
+
+
+    <color name="colorEMERALD">#3FC380</color>
+    <color name="colorGOSSIP">#87D37C</color>
+    <color name="colorDARKSEA">#90C695</color>
+    <color name="colorSALEM">#1E824C</color>
+
 </resources>

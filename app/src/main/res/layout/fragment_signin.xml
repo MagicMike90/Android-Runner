@@ -78,6 +78,7 @@
                 <Button
                     android:id="@+id/email_sign_in_button"
                     style="?android:textAppearanceSmall"
+                    android:background="@drawable/custom_highlight_btn"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="16dp"
@@ -89,14 +90,10 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="center_horizontal"
-                    android:textColor="@color/highlightColor"
+                    android:textColor="@color/colorHighlight"
                     android:layout_marginTop="@dimen/activity_vertical_margin"
                     android:text="@string/forget_password" />
 
-                <!--<include-->
-                    <!--layout="@layout/fragment_signin_footer"-->
-                    <!--android:layout_width="match_parent"-->
-                    <!--android:layout_height="match_parent" />-->
 
             </LinearLayout>
 
